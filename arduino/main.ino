@@ -9,15 +9,15 @@ byte keys[columnCount][rowCount];
  
 void setup() {
 	Serial.begin(9600);
- 
-	for(int i=0; i<rowCount; i++) {
+
+	for(int i=0; i < rowCount; i++) {
 		pinMode(rows[i], INPUT);
 	}
- 
-	for (int i=0; i<columnCount; i++) {
+
+	for (int i=0; i < columnCount; i++) {
 		pinMode(columns[i], INPUT_PULLUP);
 	}
-         
+		 
 }
  
 void readKeys() {
@@ -27,10 +27,10 @@ void readKeys() {
 		digitalWrite(currentColumn, LOW);
 
 		for (int j=0; j < rowCount; j++) {
-			byte rowColumn = rows[j];
-			pinMode(rowColumn, INPUT_PULLUP);
-			keys[i][j] = digitalRead(rowColumn);
-			pinMode(rowColumn, INPUT);
+			byte currentRow = rows[j];
+			pinMode(currentRow, INPUT_PULLUP);
+			keys[i][j] = digitalRead(currentRow);
+			pinMode(currentRow, INPUT);
 		}
 		pinMode(currentColumn, INPUT);
 	}
@@ -38,25 +38,30 @@ void readKeys() {
  
 void loop() {
 	// The keyboard layout (topright-to-bottomleft)
-	//0504030201
-	//1009080706 
-	//1514131211
+	//05-04-03-02-01
+	//10-09-08-07-06 
+	//15-14-13-12-11
 	readKeys();
-	int key1 = keys[4][0];
-	int key2 = keys[3][0];
-	int key3 = keys[2][0];
-	int key4 = keys[1][0];
-	int key5 = keys[0][0];
-	int key6 = keys[4][1];
-	int key7 = keys[3][1];
-	int key8 = keys[2][1];
-	int key9 = keys[1][1];
-	int key10 = keys[0][1];
-	int key11 = keys[4][2];
-	int key12 = keys[3][2];
-	int key13 = keys[2][2];
-	int key14 = keys[1][2];
-	int key15 = keys[0][2];
+	bool first = true;
+	int keysarr[] = {keys[4][0], keys[3][0], keys[2][0], 
+		      		 keys[1][0], keys[0][0], keys[4][1], 
+		             keys[3][1], keys[2][1], keys[1][1], 
+		             keys[0][1], keys[4][2], keys[3][2],
+		             keys[2][2], keys[1][2], keys[0][2]};
+	Serial.print("{\"keysPressed\" : [");
+	for (int i=0; i < 15; i++) {
+		if (keysarr[i] == 0) {
+			if (first) {
+				Serial.print(i + 1);
+				first = false;
+			} else {
+				Serial.print(", ");
+				Serial.print(i + 1);
+			}
+		}
+	}
+	Serial.println("]}");
+
 }
 
 
