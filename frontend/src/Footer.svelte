@@ -28,7 +28,6 @@
 
     footer h2#label {
         font-size: 22px;
-        font-family: 'Nunito', sans-serif;
         padding: 0 10px 0 0;
     }
 
