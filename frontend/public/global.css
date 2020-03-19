@@ -1,4 +1,8 @@
 html, body {
+	margin: 0px;
 	height: 100vh;
 	width: -webkit-fill-available;
+	background: rgb(26, 26, 26);
+	color: white;
+	font-family: sans-serif;
 }
