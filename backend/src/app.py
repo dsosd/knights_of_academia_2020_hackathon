@@ -11,7 +11,7 @@ ports = list(list_ports.comports())
 # Look for the arduino port
 for p in ports:
     # Print ports for debugging
-    print(p)
+    print(f"{p}. ")
     if "Arduino" in p.description:
         print(f"Arduino Port -> {p}")
         port = p
