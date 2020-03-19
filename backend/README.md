@@ -1,11 +1,11 @@
-# DOCUMENTATION FOR 'app.py'
+# Documentation for the [backend](https://github.com/SagnikPradhan/the-knights/tree/b40225d6ca580323436ecf3f953cbdaf4bd8ebc1/backend):
 ## Contents:
 Contents: | Description:
 -------- | -----------
-Running | Describes how to run the server
-JSON Data format | Describes how JSON files should be formatted
-Manually finding ports | Describes how to manually find ports if the server can't
-Deployment | Describes various options on how to deploy the server
+[Running](https://github.com/SagnikPradhan/the-knights/tree/b40225d6ca580323436ecf3f953cbdaf4bd8ebc1/backend#running) | Describes how to run the server
+[JSON Data format](https://github.com/SagnikPradhan/the-knights/tree/b40225d6ca580323436ecf3f953cbdaf4bd8ebc1/backend#json-data-format) | Describes how JSON files should be formatted
+[Manually finding ports](https://github.com/SagnikPradhan/the-knights/tree/b40225d6ca580323436ecf3f953cbdaf4bd8ebc1/backend#manually-finding-ports) | Describes how to manually find ports if the server can't
+[Deployment](https://github.com/SagnikPradhan/the-knights/tree/b40225d6ca580323436ecf3f953cbdaf4bd8ebc1/backend#deployment) | Describes various options on how to deploy the server
 
 ## Running:
 Since this is a Flask app, it can be run using:
