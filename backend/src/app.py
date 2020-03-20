@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
+import json
 from multiprocessing import Process, Value
 import serial
 from serial.tools import list_ports
-import json
 import time
 
 # List of ports
@@ -25,6 +25,7 @@ while not plugged_in:
         plugged_in = True
     except:
         print("!!! NOT PLUGGED IN !!!")
+        #TODO add wait for keypress prompt instead
         time.sleep(1)
 
 # Create server
@@ -37,7 +38,7 @@ def index():
 
 # Serial loop for reading serial ports
 def serial_loop():
-    print ("Entering main server loop..")
+    print("Entering main server loop..")
     while True:
         #? Serial port reading
         try:
@@ -46,8 +47,8 @@ def serial_loop():
             print("Data could not be read")
 
 # Run the server and the serial loop on a different process
-if __name__ == '__main__':
-    p = Process(target=serial_loop)
-    p.start()  
-    server.run(debug=True, use_reloader=False)
+if __name__ == "__main__":
+    p = Process(target = serial_loop)
+    p.start()
+    server.run(debug = True, use_reloader = False)
     p.join()
