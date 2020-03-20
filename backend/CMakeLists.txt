@@ -9,6 +9,8 @@ set(default_srcs ${default_srcs} src/main.cpp)
 set(default_srcs ${default_srcs} src/arduino.cpp)
 set(default_srcs ${default_srcs} src/keyboard.cpp)
 set(default_srcs ${default_srcs} src/server.cpp)
+set(default_srcs ${default_srcs} src/server_handler.cpp)
+set(default_srcs ${default_srcs} src/server_wrapper.cpp)
 add_executable(default ${default_srcs})
 
 target_include_directories(default PRIVATE src PRIVATE include)

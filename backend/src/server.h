@@ -3,30 +3,19 @@
 
 #include <memory>
 
-#include <httpserver/httpserver.hpp>
+#include <server_handler.h>
+#include <server_wrapper.h>
 
 namespace koa_2020{
 
-using Sptr_resp = std::shared_ptr<httpserver::http_response>;
-using Http_req = httpserver::http_request;
-
-class Server_: public httpserver::http_resource{
-public:
-	void start_listening(int port);
-
-	const Sptr_resp render_GET(const Http_req& req) final;
-	const Sptr_resp render_POST(const Http_req& req) final;
-private:
-	//
-};
-
 class Server{
 public:
-	Server(int port);
+	Server();
 
-	//void start_listening(int port);
+	void start_listening(int port);
 private:
-	httpserver::webserver serv;
+	std::unique_ptr<Server_handler> handler;
+	std::shared_ptr<Server_wrapper> wrapper;
 };
 
 }

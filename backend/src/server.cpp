@@ -4,24 +4,16 @@
 
 namespace koa_2020{
 
-Server::Server(int port)
-		:serv(httpserver::create_webserver(port)){
-	Server_ handler;
-	serv.register_resource("/api", &handler);
-	std::cout << "abc\n";
-	serv.start(false);
-
-	std::cout << "www\n";
+Server::Server()
+		:handler(new Server_handler()), wrapper(new Server_wrapper()){
 }
 
-const Sptr_resp Server_::render_GET(const Http_req& req){
-	std::string resp = "GET request received!";
-	return Sptr_resp(new httpserver::string_response(resp));
-}
+void Server::start_listening(int port){
+	wrapper = std::make_shared<Server_wrapper>(Server_wrapper(port));
 
-const Sptr_resp Server_::render_POST(const Http_req& req){
-	std::string resp = "POST request received!";
-	return Sptr_resp(new httpserver::string_response(resp));
+	wrapper->unwrap().register_resource("/api", &*handler);
+
+	wrapper->unwrap().start(false);
 }
 
 }
