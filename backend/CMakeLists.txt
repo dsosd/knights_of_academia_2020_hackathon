@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(default_srcs ${default_srcs} src/main.cpp)
 set(default_srcs ${default_srcs} src/arduino.cpp)
+set(default_srcs ${default_srcs} src/keyboard.cpp)
 set(default_srcs ${default_srcs} src/server.cpp)
 add_executable(default ${default_srcs})
 
