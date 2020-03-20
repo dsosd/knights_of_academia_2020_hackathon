@@ -10,12 +10,16 @@ namespace koa_2020{
 using Sptr_resp = std::shared_ptr<httpserver::http_response>;
 using Http_req = httpserver::http_request;
 
+class Server;
+
 class Server_handler: public httpserver::http_resource{
 public:
+	Server_handler(Server& server_);
+
 	const Sptr_resp render_GET(const Http_req& req) final;
 	const Sptr_resp render_POST(const Http_req& req) final;
 private:
-	//
+	Server& server;
 };
 
 }

@@ -7,11 +7,13 @@ namespace koa_2020{
 
 class Server_wrapper{
 public:
+	//default constructor should NOT be used when starting a server
 	Server_wrapper();
 	Server_wrapper(int port);
 
 	httpserver::webserver& unwrap();
 private:
+	bool startable;
 	httpserver::webserver server;
 };
 

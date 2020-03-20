@@ -15,6 +15,7 @@ int main(int argc, char** argv){
 
 
 	t1.join();
+	serv.stop();
 
 	return 0;
 }

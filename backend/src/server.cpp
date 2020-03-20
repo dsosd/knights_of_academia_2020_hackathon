@@ -5,7 +5,7 @@
 namespace koa_2020{
 
 Server::Server()
-		:handler(new Server_handler()), wrapper(new Server_wrapper()){
+		:handler(new Server_handler(*this)), wrapper(new Server_wrapper()){
 }
 
 void Server::start_listening(int port){
@@ -15,14 +15,21 @@ void Server::start_listening(int port){
 	handler->set_allowing("GET", true);
 	handler->set_allowing("POST", true);
 
-	wrapper->unwrap().register_resource("/api", &*handler);
+	wrapper->unwrap().register_resource("/api", &*handler, true);
 
-	//since this call is blocking, this function should be called on a separate thread
-	wrapper->unwrap().start(true);
+	wrapper->unwrap().start(false);
+
+	//wait for server to finish (and unlock the mutex)
+	mutex.lock();
+
+	//block until the mutex is unlocked
+	mutex.lock();
+	//clean up
+	mutex.unlock();
 }
 
 void Server::stop(){
-	wrapper->unwrap().stop();
+	wrapper->unwrap().sweet_kill();
 }
 
 }
