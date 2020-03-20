@@ -13,6 +13,7 @@ public:
 	Server();
 
 	void start_listening(int port);
+	void stop();
 private:
 	std::unique_ptr<Server_handler> handler;
 	std::shared_ptr<Server_wrapper> wrapper;

@@ -19,4 +19,8 @@ find_library(default_lib_temp httpserver PATHS lib NO_DEFAULT_PATH)
 set(default_libs ${default_libs} ${default_lib_temp})
 unset(default_lib_temp CACHE)
 
+find_library(default_lib_temp pthread)
+set(default_libs ${default_libs} ${default_lib_temp})
+unset(default_lib_temp CACHE)
+
 target_link_libraries(default ${default_libs})
