@@ -35,7 +35,9 @@
 
 The whole product is divided into 3 Main Parts
 
-![Flowchart](/flowchart.svg)
+1. Arduino
+2. Backend
+3. Frontend
 
 The Arduino compatible board, here act as a keyboard. Sending keypresses and knob values to the Serial Port.
 
@@ -49,12 +51,14 @@ This page contains mainly a brief of the communication, how this communication i
 
 #### Arduino and Backend Communication
 
-The **Arduino and Backend** follow an event schema throughout the time they message each other. The Schema to be followed is given below.
+The **Arduino and Backend** follow an event schema throughout the time they message each other through **Serial Port**. The Schema to be followed is given below.
 
 ```json
     {
         "event": "EVENT_NAME",
-        "data": {...}
+        "data": {
+            // ...
+        }
     }
 ```
 
@@ -113,10 +117,10 @@ The events are as follows:
                 "event": "UPDATE_LEDS",
                 "data": {
                     "leds": {
-                        0: [70, 20, 255],
-                        1: [70, 54, 0],
-                        ...
-                        20: [100, 255, 255]
+                        "0": [70, 20, 255],
+                        "1": [70, 54, 0],
+                        // ...
+                        "20": [100, 255, 255]
                     }
                 }
             }
@@ -157,26 +161,26 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
             {
                 "id": 12345678,
                 "leds": {
-                    0: [70, 20, 255],
-                    1: [70, 54, 0],
-                    ...
-                    20: [100, 255, 255]
+                    "0": [70, 20, 255],
+                    "1": [70, 54, 0],
+                    // ...
+                    "20": [100, 255, 255]
                 },
                 "keybindings": {
-                    0: {
+                    "0": {
                         "type": "script",
                         "data": "code ~/Projects/the-knights"
                     },
-                    1: {
+                    "1": {
                         "type": "keystroke",
                         "data": "E"
                     },
-                    2: {
+                    "2": {
                         "type": "timer",
                         "data": ""
                     },
-                    ...
-                    20: {
+                    // ...
+                    "20": {
                         "type": "keystroke",
                         "data": "Ctrl Alt Up"
                     }
@@ -195,7 +199,9 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
         {
             "id": 12345678,
             "event": "EVENT_NAME",
-            "data": {...}
+            "data": {
+                // ...
+            }
         }
     ```
 
@@ -217,20 +223,20 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
                     "event": "UPDATE_KEYBINDINGS",
                     "data": {
                         "keybindings": {
-                            0: {
+                            "0": {
                                 "type": "script",
                                 "data": "code ~/Projects/the-knights"
                             },
-                            1: {
+                            "1": {
                                 "type": "keystroke",
                                 "data": "E"
                             },
-                            2: {
+                            "2": {
                                 "type": "timer",
                                 "data": "",
                             },
-                            ...
-                            20: {
+                            // ...
+                            "20": {
                                 "type": "keystroke",
                                 "data": "Ctrl Alt Up"
                             }
