@@ -53,7 +53,7 @@ This page contains mainly a brief of the communication, how this communication i
 
 The **Arduino and Backend** follow an event schema throughout the time they message each other through **Serial Port**. The Schema to be followed is given below.
 
-```json
+```jsonc
     {
         "event": "EVENT_NAME",
         "data": {
@@ -70,7 +70,7 @@ The events are as follows:
 
         This is sent in the `CONFIG` payload once the Arduino is connected to the Serial Port. Once this is sent the Backend needs to store all the details related to this specific board with this `id`. All the details include Port it is connected to, the RGB LEDs data along with Keybindings too.
 
-        ```json
+        ```jsonc
             {
                 "event": "CONFIG",
                 "data": {
@@ -85,7 +85,7 @@ The events are as follows:
 
         This is sent periodically once the board has succesfully connected. Here `active` represents the keys currently pressed and `knob` represents the value of knob which is between 0 and 100.
 
-        ```json
+        ```jsonc
             {
                 "event": "KEYSTATUS",
                 "data": {
@@ -101,7 +101,7 @@ The events are as follows:
 
         This payload is sent once the server has recieved the `CONFIG` payload.
 
-        ```json
+        ```jsonc
             {
                 "event": "CONNECTED",
                 "data": {}
@@ -112,7 +112,7 @@ The events are as follows:
 
         This payload is sent to update the rgb leds color. `leds` contain an object with keys representing the led number and value being an array of three numbers `[R, G, B]` between 0 and 255.
 
-        ```json
+        ```jsonc
             {
                 "event": "UPDATE_LEDS",
                 "data": {
@@ -157,7 +157,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
 
         Here `id` is the Id of board that we get from `/api/connect`. Responds with a JSON Body like so
 
-        ```json
+        ```jsonc
             {
                 "id": 12345678,
                 "leds": {
@@ -195,7 +195,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
         
     The websocket also follows an payload schema, given below
 
-     ```json
+     ```jsonc
         {
             "id": 12345678,
             "event": "EVENT_NAME",
@@ -217,7 +217,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
 
             Used to update keybindings.
 
-            ```json
+            ```jsonc
                 {
                     "id": 12345678,
                     "event": "UPDATE_KEYBINDINGS",
@@ -251,7 +251,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
 
             Used to update time of timer, Here `time` represents the timers time in minutes
 
-            ```json
+            ```jsonc
                 {
                     "id": 12345678,
                     "event": "UPDATE_TIMER",
@@ -265,7 +265,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
 
             Used to inform frontend the timer has started
 
-            ```json
+            ```jsonc
                 "id": 12345678,
                 "event": "START_TIMER",
                 "data": {
@@ -277,7 +277,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
 
             Used to inform frontend the timer has stopped
 
-            ```json
+            ```jsonc
                 "id": 12345678,
                 "event": "END_TIMER",
                 "data": {}
