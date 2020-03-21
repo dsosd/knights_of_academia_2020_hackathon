@@ -14,6 +14,7 @@ def serial_loop():
         # why is there a question mark??
         #? Serial port reading
         try:
+            #TODO implement actual data handling
             data = dumps(ser.readline())
         except serial.SerialTimeoutExeption:
             print("Data could not be read (serial timeout)")
@@ -37,7 +38,7 @@ def run_serial():
             ser = serial.Serial(port, port_num, timeout = 0)
             plugged_in = True
         except:
-            print("!!! NOT PLUGGED IN !!!")
+            print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
             #TODO add wait for keypress prompt instead
             time.sleep(1)
 
@@ -51,6 +52,10 @@ def run_server():
     #? For hosting data
     @server.route("/api/<endpoint>", methods = ["GET", "POST"])
     def req_handler(endpoint):
+        if endpoint not in ["ports", "config", "leds"]:
+            raise Exception()
+
+        #TODO implement actual data handling
         return "{} request received!".format(flask.request.method)
 
     server.run(debug = True, use_reloader = False)
