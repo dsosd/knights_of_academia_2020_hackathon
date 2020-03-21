@@ -1,8 +1,9 @@
+import flask
 from flask import Flask, request, jsonify
 import json
 from multiprocessing import Process, Value
 import serial
-from serial.tools import list_ports
+import serial.tools.list_ports
 import sys
 import time
 
@@ -19,7 +20,7 @@ def serial_loop():
 
 def run_serial():
     # Look for the arduino port
-    for p in list_ports.comports():
+    for p in serial.tools.list_ports.comports():
         # Print ports for debugging
         print(f"{p}. ")
         if "Arduino" in p.description:
@@ -48,15 +49,15 @@ def run_server():
 
     # why is there a question mark??
     #? For hosting data
-    @server.route('/')
-    def index():
-        return data
+    @server.route("/api/<endpoint>", methods = ["GET", "POST"])
+    def req_handler(endpoint):
+        return "{} request received!".format(flask.request.method)
 
     server.run(debug = True, use_reloader = False)
 
 # Run the server and the serial loop on a different process
-def main()
-    proc = Process(target = serial)
+def main():
+    proc = Process(target = run_serial)
     proc.start()
     run_server()
     proc.join()
