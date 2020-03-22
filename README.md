@@ -63,12 +63,13 @@ The **Arduino and Backend** follow an event schema throughout the time they mess
 ```
 
 The events are as follows:
-- From Arduino
+
+- To Arduino from Backend
     1. `CONFIG`
 
         The Arduino on initialization for the very first powerup writes a unique string of 8 numerical characters on the external EEPROM. This unique string acts as an id of the Board.
 
-        This is sent in the `CONFIG` payload once the Arduino is connected to the Serial Port. Once this is sent the Backend needs to store all the details related to this specific board with this `id`. All the details include Port it is connected to, the RGB LEDs data along with Keybindings too.
+        This is sent in the `CONFIG` payload once the Arduino is connected to the Serial Port. (Where, i.e. which packet, does the backend get these details?) Once this is sent the Backend needs to store all the details related to this specific board with this `id`. All the details include Port it is connected to, the RGB LEDs data along with Keybindings too.
 
         ```jsonc
             {
@@ -81,7 +82,36 @@ The events are as follows:
 
         If the connection is successful the Server responds with a `CONNECTED` Payload
 
-    2. `KEY_STATUS`
+    2. `UPDATE_LEDS`
+
+        This payload is sent to update the color of the RGB LEDs. `leds` contain an object with keys representing the led number and value an array of three numbers `[R, G, B]` between 0 and 255.
+
+        ```jsonc
+            {
+                "event": "UPDATE_LEDS",
+                "data": {
+                    "leds": {
+                        "1": [70, 20, 255],
+                        "2": [70, 54, 0],
+                        // ...
+                        "20": [100, 255, 255]
+                    }
+                }
+            }
+        ```
+
+        The LEDs are numbered from the top right to bottom left. Like so
+
+	Will this remain hardcoded?
+        ```
+        05 04 03 02 01
+        10 09 08 07 06
+        15 14 13 12 11
+        20 19 18 17 16
+        ```
+
+- To Backend from Arduino
+    1. `KEY_STATUS`
 
         This is sent periodically once the board has successfully connected. Here `active` represents the keys currently pressed and `knob` represents the value of knob which is between 0 and 100.
 
@@ -95,10 +125,9 @@ The events are as follows:
             }
         ```
 
-        
-- From the Server
-    1. `CONNECTED`
+    2. `CONNECTED`
 
+	What is the data?
         This payload is sent once the server has received the `CONFIG` payload.
 
         ```jsonc
@@ -108,49 +137,25 @@ The events are as follows:
             }
         ```
 
-    2. `UPDATE_LEDS`
-
-        This payload is sent to update the color of the RGB LEDs. `leds` contain an object with keys representing the led number and value an array of three numbers `[R, G, B]` between 0 and 255.
-
-        ```jsonc
-            {
-                "event": "UPDATE_LEDS",
-                "data": {
-                    "leds": {
-                        "0": [70, 20, 255],
-                        "1": [70, 54, 0],
-                        // ...
-                        "20": [100, 255, 255]
-                    }
-                }
-            }
-        ```
-
-        The LEDs are numbered from the top right to bottom left. Like so
-
-        ```
-        05 04 03 02 01
-        10 09 08 07 06
-        15 14 13 12 11
-        20 19 18 17 16
-        ```
-
 #### Backend and Frontend Communication
 
 The **Backend and Frontend** also communicate with the help of HTTP Methods and a Websocket.
     
-The HTTP server listens on the `localport:8080/api` and the Websocket server listens on `localport:8080`. The server also needs to host these frontend files.
+The HTTP server listens on the `localport:8080/api` and the Websocket server listens on `localport:{ws_port}`. The server also needs to host these frontend files.
 
 - HTTP Methods
 
     1. `GET /api/ports`
 
+	Does this dynamically updated? If so, is the array specified to be stable with regards to order of the ports?
         This route sends a JSON body with an array of ports to which Arduino is/are connected on the Computer.
 
     2. `GET /api/connect`
 
+	Support for multiple port connections?
          > Note: This route requires an URL-encoded parameter containing the port you want to connect to. Example, `/api/connect?port=com4`
 
+	As json or just raw text?
         If successful the route responds with the `id` of the board, which we can use for identification on Websocket.
 
     3. `GET /api/boards/id`
@@ -161,27 +166,29 @@ The HTTP server listens on the `localport:8080/api` and the Websocket server lis
             {
                 "id": 12345678,
                 "leds": {
-                    "0": [70, 20, 255],
-                    "1": [70, 54, 0],
+                    "1": [70, 20, 255],
+                    "2": [70, 54, 0],
                     // ...
                     "20": [100, 255, 255]
                 },
                 "keybindings": {
-                    "0": {
+                    "1": {
+			What are all the types we support and what is the schema for their respective data fields?
                         "type": "script",
                         "data": "code ~/Projects/the-knights"
                     },
-                    "1": {
+                    "2": {
                         "type": "keystroke",
                         "data": "E"
                     },
-                    "2": {
+                    "3": {
                         "type": "timer",
                         "data": ""
                     },
                     // ...
                     "20": {
                         "type": "keystroke",
+			Enumeration of all keys to support would be nice.
                         "data": "Ctrl Alt Up"
                     }
                 },
@@ -207,7 +214,7 @@ The HTTP server listens on the `localport:8080/api` and the Websocket server lis
 
     The Events are given below
 
-    - From Frontend
+    - To Backend from Frontend
 
         1. `UPDATE_LEDS`
 
@@ -223,15 +230,15 @@ The HTTP server listens on the `localport:8080/api` and the Websocket server lis
                     "event": "UPDATE_KEYBINDINGS",
                     "data": {
                         "keybindings": {
-                            "0": {
+                            "1": {
                                 "type": "script",
                                 "data": "code ~/Projects/the-knights"
                             },
-                            "1": {
+                            "2": {
                                 "type": "keystroke",
                                 "data": "E"
                             },
-                            "2": {
+                            "3": {
                                 "type": "timer",
                                 "data": "",
                             },
@@ -245,7 +252,7 @@ The HTTP server listens on the `localport:8080/api` and the Websocket server lis
                 }
             ```
 
-    - From the Server
+    - To Frontend from Backend
 
         1. `UPDATE_TIMER`
 
@@ -294,7 +301,7 @@ Here are some of the function flows
 
 ## How to make it yourself
 
-The project is not yet complete. So no way to get it working
+The project is not yet complete. So (currrently) there is no way to get it working
 
 ---
 
