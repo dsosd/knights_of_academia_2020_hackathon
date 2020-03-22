@@ -190,7 +190,6 @@ The HTTP server listens on `localhost:{port}/api` and the Websocket server liste
                     // ...
                     "20": {
                         "type": "keystroke",
-			Enumeration of all keys to support would be nice.
                         "data": "Ctrl Alt Up"
                     }
                 },
@@ -294,16 +293,42 @@ The HTTP server listens on `localhost:{port}/api` and the Websocket server liste
 
 #### Function Flows
 
-Here are some of the function flows
+Here are some of the function flows or Pseudocode for how things are handled.
 
-1. Keybindings
-2. Handling Timers
+1. **Start-Up**:
+
+    1. Arduino
+
+        When Arduino is connected to Computer it sends its `id` through the `CONFIG` Payload. Upon receiving the payload the computer responds with a `CONNECTED` Payload, which then means the computer is ready to listen for events.
+
+    2. Backend
+
+        Backend starts with starting the Web Server for the API and hosting the frontend, It then starts the WebSocket server and starts listening on the Serial Ports.
+
+        The Backend should then retrieve all the data if any it saved in sessions before. It should then listen to the Serial Ports if Arduinos are connected to them if they are it should update its internal list of available ports so that it can serve `GET api/ports`
+
+        Upon receiving the `CONFIG` payload from Arduino it should associate the PORT to the `id` of the board and also the data previously stored. If it doesn't have any data stored it should create new data with any defaults.
+
+        Later when the Frontend subsequently requests `GET /api/connect` it should send the id and `GET /api/boards/id` it should send this data.
+
+        Similarily when the Server receives `UPDATE_LEDS` and `UPDATE_KEYBINDINGS` in the Websocket it should update the data. 
+        
+        > In case of `UPDATE_LEDS` it should also send the `UPDATE_LEDS` to Arduino, but remember both the events are different.
+
+        The events sent from Backend are discussed in **3. Handling Timers**
+
+    3. Frontend
+
+
+2. **Keybindings / Keypresses**
+
+3. **Handling Timers**
 
 ---
 
 ## How to make it yourself
 
-The project is not yet complete. So (currrently) there is no way to get it working.
+The project is not yet complete. So (currently) there is no way to get it working.
 
 ---
 
@@ -316,7 +341,7 @@ If you would like to work on this, Fork the Repository make changes and Send PRs
 Global todos related to the project in common
 
 - [x] Start this README
-- [ ] Complete README Function Flows
+- [ ] Complete the whole README Function Flows
 - [x] Fix Grammar and Typo of README
 
 ### Contributors
