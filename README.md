@@ -2,7 +2,7 @@
 
 > A Pet keyboard powered by Arduino and interacted by Web
 
-**the-knights** is a small RGB keyboard, It has an Arduino inside that talks to your computer by Serial Port and does some really cool things. Like? Pomodoro Timers! 🍅
+**the-knights** is a small RGB keyboard, It has an Arduino inside that talks to your computer by Serial Port and does some cool things. Like? Pomodoro Timers! 🍅
 
 ## Index
 - [Core Principles and Working](#core-principles-and-working)
@@ -39,7 +39,7 @@ The whole product is divided into 3 Main Parts
 2. Backend
 3. Frontend
 
-The Arduino compatible board, here act as a keyboard. Sending keypresses and knob values to the Serial Port.
+The Arduino compatible board here acts as a keyboard. Sending keypresses and knob values to the Serial Port.
 
 Then you have your Backend, a server running Websocket and HTTP Server both running on the same server while also listening to your serial ports. Backend manages most of the things as it helps in conveying information from the Arduino to the Frontend
 
@@ -47,7 +47,7 @@ The Frontend then acts as your Dashboard. You can use the Dashboard to change th
 
 ### 2. Deep Dive
 
-This page contains mainly a brief of the communication, how this communication is implemented through individual libraries is mentioned in the sub folders.
+This page contains mainly a brief of the communication, how this communication is implemented through individual libraries is mentioned in the subfolders.
 
 #### Arduino and Backend Communication
 
@@ -66,7 +66,7 @@ The events are as follows:
 - From Arduino
     1. `CONFIG`
 
-        The Arduino on initialisation for the very first powerup writes a unique string of 8 numerical characters on the external EEPROM. This unique string acts as an id of the Board.
+        The Arduino on initialization for the very first powerup writes a unique string of 8 numerical characters on the external EEPROM. This unique string acts as an id of the Board.
 
         This is sent in the `CONFIG` payload once the Arduino is connected to the Serial Port. Once this is sent the Backend needs to store all the details related to this specific board with this `id`. All the details include Port it is connected to, the RGB LEDs data along with Keybindings too.
 
@@ -79,15 +79,15 @@ The events are as follows:
             }
         ```
 
-        If connection is successfull the Server responds with a `CONNECTED` Payload
+        If the connection is successful the Server responds with a `CONNECTED` Payload
 
-    2. `KEYSTATUS`
+    2. `KEY_STATUS`
 
-        This is sent periodically once the board has succesfully connected. Here `active` represents the keys currently pressed and `knob` represents the value of knob which is between 0 and 100.
+        This is sent periodically once the board has successfully connected. Here `active` represents the keys currently pressed and `knob` represents the value of knob which is between 0 and 100.
 
         ```jsonc
             {
-                "event": "KEYSTATUS",
+                "event": "KEY_STATUS",
                 "data": {
                     "active": [0, 1, 3, 5, 10],
                     "knob": 100
@@ -99,7 +99,7 @@ The events are as follows:
 - From the Server
     1. `CONNECTED`
 
-        This payload is sent once the server has recieved the `CONFIG` payload.
+        This payload is sent once the server has received the `CONFIG` payload.
 
         ```jsonc
             {
@@ -110,7 +110,7 @@ The events are as follows:
 
     2. `UPDATE_LEDS`
 
-        This payload is sent to update the rgb leds color. `leds` contain an object with keys representing the led number and value being an array of three numbers `[R, G, B]` between 0 and 255.
+        This payload is sent to update the color of the RGB LEDs. `leds` contain an object with keys representing the led number and value an array of three numbers `[R, G, B]` between 0 and 255.
 
         ```jsonc
             {
@@ -126,7 +126,7 @@ The events are as follows:
             }
         ```
 
-        The LEDs are numbered from top right to bottom left. Like so
+        The LEDs are numbered from the top right to bottom left. Like so
 
         ```
         05 04 03 02 01
@@ -139,23 +139,23 @@ The events are as follows:
 
 The **Backend and Frontend** also communicate with the help of HTTP Methods and a Websocket.
     
-The http server listens on the `localport:8080/api` and the Websocket server listens on `localport:8080`. The server also needs to host these frontend files.
+The HTTP server listens on the `localport:8080/api` and the Websocket server listens on `localport:8080`. The server also needs to host these frontend files.
 
 - HTTP Methods
 
     1. `GET /api/ports`
 
-        This route sends a JSON body with array of ports to which Arduino is connected on the Computer.
+        This route sends a JSON body with an array of ports to which Arduino is/are connected on the Computer.
 
     2. `GET /api/connect`
 
-         > Note: This route requires urlencoded parameter containing the port you want to connect to. Example, `/api/connect?port=com4`
+         > Note: This route requires an URL-encoded parameter containing the port you want to connect to. Example, `/api/connect?port=com4`
 
-        If successfull the route responds with the `id` of board, which we can use for identification on Websocket.
+        If successful the route responds with the `id` of the board, which we can use for identification on Websocket.
 
     3. `GET /api/boards/id`
 
-        Here `id` is the Id of board that we get from `/api/connect`. Responds with a JSON Body like so
+        Here `id` is the Id of the board that we get from `/api/connect`. Responds with a JSON Body like so
 
         ```jsonc
             {
@@ -193,7 +193,7 @@ The http server listens on the `localport:8080/api` and the Websocket server lis
     
 - Websocket
         
-    The websocket also follows an payload schema, given below
+    The WebSocket connection also follows a payload schema, given below
 
      ```jsonc
         {
@@ -294,7 +294,7 @@ Here are some of the function flows
 
 ## How to make it yourself
 
-Project not yet complete. So no way to get it working
+The project is not yet complete. So no way to get it working
 
 ---
 
@@ -308,7 +308,7 @@ Global todos related to the project in common
 
 - [x] Start this README
 - [ ] Complete README Function Flows
-- [ ] Fix Grammar and Typo of README
+- [x] Fix Grammar and Typo of README
 
 ### Contributors
 
