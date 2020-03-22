@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 import json
 from multiprocessing import Process, Value
 import serial
+from serial import SerialTimeoutException
 import serial.tools.list_ports
 import sys
 import time
@@ -12,13 +13,13 @@ ser = serial.Serial()
 # Serial loop for reading serial port data
 def serial_loop():
     print("Entering serial loop...")
+    ser.open()
     while True:
-        # why is there a question mark??
-        #? Serial port reading
+        # Serial port reading
         try:
             #TODO implement actual data handling
             data = json.dumps(ser.readline())
-        except serial.SerialTimeoutExeption:
+        except SerialTimeoutException:
             print("Data could not be read (serial timeout)")
 
 def run_serial():
@@ -44,8 +45,6 @@ def run_serial():
                 print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
                 #TODO add wait for keypress prompt instead
                 time.sleep(1)
-        #
-        # ser.open()
         serial_loop()
 
 def run_server():
