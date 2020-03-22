@@ -8,8 +8,6 @@ import serial.tools.list_ports
 import sys
 import time
 
-ser = serial.Serial()
-
 # Serial loop for reading serial port data
 def serial_loop():
     print("Entering serial loop...")
@@ -19,6 +17,7 @@ def serial_loop():
         try:
             #TODO implement actual data handling
             data = json.dumps(ser.readline())
+            print(data)
         except SerialTimeoutException:
             print("Data could not be read (serial timeout)")
 
@@ -38,6 +37,7 @@ def run_serial():
         while not plugged_in:
             try:
                 #ser = serial.Serial(p, 9600, timeout = 0)
+                global ser
                 ser = serial.Serial(port, port_num, timeout = 0)
                 plugged_in = True
             except Exception as e:
