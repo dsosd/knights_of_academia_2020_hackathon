@@ -341,8 +341,9 @@ If you would like to work on this, Fork the Repository make changes and Send PRs
 Global todos related to the project in common
 
 - [x] Start this README
-- [ ] Complete the whole README Function Flows
 - [x] Fix Grammar and Typo of README
+- [ ] Complete the whole README Function Flows
+- [ ] Fix the Index
 
 ### Contributors
 
