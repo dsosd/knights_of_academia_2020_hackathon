@@ -7,6 +7,8 @@ import serial.tools.list_ports
 import sys
 import time
 
+ser = serial.Serial()
+
 # Serial loop for reading serial port data
 def serial_loop():
     print("Entering serial loop...")
@@ -15,7 +17,7 @@ def serial_loop():
         #? Serial port reading
         try:
             #TODO implement actual data handling
-            data = dumps(ser.readline())
+            data = json.dumps(ser.readline())
         except serial.SerialTimeoutExeption:
             print("Data could not be read (serial timeout)")
 
@@ -24,32 +26,33 @@ def run_serial():
     for p in serial.tools.list_ports.comports():
         # Print ports for debugging
         print(f"{p}. ")
-        if "Arduino" in p.description:
+        if "COM3" in p.description:
             print(f"Arduino Port -> {p}")
-            port = p
+            port = p.name
 
-    plugged_in = False
-    port_num = 9600
+        plugged_in = False
+        port_num = 9600
 
-    # Check if Arduino is plugged in
-    while not plugged_in:
-        try:
-            #ser = serial.Serial(p, 9600, timeout = 0)
-            ser = serial.Serial(port, port_num, timeout = 0)
-            plugged_in = True
-        except:
-            print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
-            #TODO add wait for keypress prompt instead
-            time.sleep(1)
-
-    serial_loop()
+        # Check if Arduino is plugged in
+        while not plugged_in:
+            try:
+                #ser = serial.Serial(p, 9600, timeout = 0)
+                ser = serial.Serial(port, port_num, timeout = 0)
+                plugged_in = True
+            except Exception as e:
+                print(e)
+                print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
+                #TODO add wait for keypress prompt instead
+                time.sleep(1)
+        #
+        # ser.open()
+        serial_loop()
 
 def run_server():
     # Create server
     server = Flask(__name__)
 
-    # why is there a question mark??
-    #? For hosting data
+    # For hosting data
     @server.route("/api/<endpoint>", methods = ["GET", "POST"])
     def req_handler(endpoint):
         if endpoint not in ["ports", "config", "leds"]:
