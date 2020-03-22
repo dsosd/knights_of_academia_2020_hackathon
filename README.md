@@ -65,22 +65,16 @@ The **Arduino and Backend** follow an event schema throughout the time they mess
 The events are as follows:
 
 - To Arduino from Backend
-    1. `CONFIG`
+    1. `CONNECTED`
 
-        The Arduino on initialization for the very first powerup writes a unique string of 8 numerical characters on the external EEPROM. This unique string acts as an id of the Board.
-
-        This is sent in the `CONFIG` payload once the Arduino is connected to the Serial Port. (Where, i.e. which packet, does the backend get these details?) Once this is sent the Backend needs to store all the details related to this specific board with this `id`. All the details include Port it is connected to, the RGB LEDs data along with Keybindings too.
+        This payload is sent once the server has received the `CONFIG` payload. Note that the data field contains nothing.
 
         ```jsonc
             {
-                "event": "CONFIG",
-                "data": {
-                    "id": 12345678
-                }
+                "event": "CONNECTED",
+                "data": {}
             }
         ```
-
-        If the connection is successful the Server responds with a `CONNECTED` Payload
 
     2. `UPDATE_LEDS`
 
@@ -102,7 +96,6 @@ The events are as follows:
 
         The LEDs are numbered from the top right to bottom left. Like so
 
-	Will this remain hardcoded?
         ```
         05 04 03 02 01
         10 09 08 07 06
@@ -119,48 +112,58 @@ The events are as follows:
             {
                 "event": "KEY_STATUS",
                 "data": {
-                    "active": [0, 1, 3, 5, 10],
+                    "active": [1, 2, 3, 5, 10],
                     "knob": 100
                 }
             }
         ```
 
-    2. `CONNECTED`
+    2. `CONFIG`
 
-	What is the data?
-        This payload is sent once the server has received the `CONFIG` payload.
+        The Arduino on initialization for the very first powerup writes a unique string of 8 numerical characters on the external EEPROM. This unique string acts as an id of the Board.
+
+        This is sent in the `CONFIG` payload once the Arduino is connected to the Serial Port. The id associates data between the Dashboard and the Arduino, which is stored in the Backend.
 
         ```jsonc
             {
-                "event": "CONNECTED",
-                "data": {}
+                "event": "CONFIG",
+                "data": {
+                    "id": 12345678
+                }
             }
         ```
+
+        If the connection is successful the Server responds with a `CONNECTED` Payload
 
 #### Backend and Frontend Communication
 
 The **Backend and Frontend** also communicate with the help of HTTP Methods and a Websocket.
     
-The HTTP server listens on the `localport:8080/api` and the Websocket server listens on `localport:{ws_port}`. The server also needs to host these frontend files.
+The HTTP server listens on `localhost:{port}/api` and the Websocket server listens on `localhost:{port}`, with the default port being 8080. The server also needs to host these frontend files.
 
 - HTTP Methods
 
     1. `GET /api/ports`
 
-	Does this dynamically updated? If so, is the array specified to be stable with regards to order of the ports?
-        This route sends a JSON body with an array of ports to which Arduino is/are connected on the Computer.
+        This route sends a JSON body with an unordered array of ports to which Arduino is/are connected on the Computer.
+
+	```jsonc
+		["com4", "com5", "com9"]
+	```
 
     2. `GET /api/connect`
 
-	Support for multiple port connections?
-         > Note: This route requires an URL-encoded parameter containing the port you want to connect to. Example, `/api/connect?port=com4`
+         > Note: This route requires an URL-encoded parameter containing the port you want to connect to. Example, `/api/connect?port=com4` There must be exactly one port per request.
 
-	As json or just raw text?
         If successful the route responds with the `id` of the board, which we can use for identification on Websocket.
+
+	```jsonc
+		"12345678"
+	```
 
     3. `GET /api/boards/id`
 
-        Here `id` is the Id of the board that we get from `/api/connect`. Responds with a JSON Body like so
+        Here `id` is the Id of the board that we get from `/api/connect`. The only keybinding types we support are script, keystroke, and timer. Responds with a JSON Body like so
 
         ```jsonc
             {
@@ -173,7 +176,6 @@ The HTTP server listens on the `localport:8080/api` and the Websocket server lis
                 },
                 "keybindings": {
                     "1": {
-			What are all the types we support and what is the schema for their respective data fields?
                         "type": "script",
                         "data": "code ~/Projects/the-knights"
                     },
@@ -218,11 +220,11 @@ The HTTP server listens on the `localport:8080/api` and the Websocket server lis
 
         1. `UPDATE_LEDS`
 
-            Same as `UPDATE_LEDS` from [Arduino-Backend Communication](#arduino-and-backend-communication) but with `id` parameter.
+            Same as `UPDATE_LEDS` from [Arduino-Backend Communication](#arduino-and-backend-communication) but with `id` parameter. This data should be associated with the id.
 
         2. `UPDATE_KEYBINDINGS`
 
-            Used to update keybindings.
+            Used to update keybindings. This data should be associated with the id.
 
             ```jsonc
                 {
@@ -301,7 +303,7 @@ Here are some of the function flows
 
 ## How to make it yourself
 
-The project is not yet complete. So (currrently) there is no way to get it working
+The project is not yet complete. So (currrently) there is no way to get it working.
 
 ---
 
