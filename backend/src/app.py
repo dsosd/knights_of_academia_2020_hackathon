@@ -81,7 +81,7 @@ def run_server():
 
     server.run(debug = True, use_reloader = False)
 
-# Run the server and the serial loop on a different process
+# Run the http/ws server and the serial port interface on different processes
 def main():
     proc = mproc.Process(target = run_serial)
     proc.start()
