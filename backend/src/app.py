@@ -1,10 +1,8 @@
 import copy
 import flask
-from flask import Flask, request, jsonify
 import json
-from multiprocessing import Process, Value
+import multiprocessing as mproc
 import serial
-from serial import SerialTimeoutException
 import serial.tools.list_ports
 import sys
 import time
@@ -19,7 +17,7 @@ def serial_loop():
             #TODO implement actual data handling
             data = json.dumps(ser.readline())
             print(data)
-        except SerialTimeoutException:
+        except serial.SerialTimeoutException:
             print("Data could not be read (serial timeout)")
 
 def run_serial():
@@ -52,7 +50,7 @@ def gen_400_err():
     return "Bad request made", 400
 
 def run_server():
-    server = Flask(__name__)
+    server = flask.Flask(__name__)
 
     port_to_id = {}
     data = {}
@@ -85,7 +83,7 @@ def run_server():
 
 # Run the server and the serial loop on a different process
 def main():
-    proc = Process(target = run_serial)
+    proc = mproc.Process(target = run_serial)
     proc.start()
     run_server()
     proc.join()
