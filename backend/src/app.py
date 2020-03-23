@@ -8,45 +8,54 @@ import serial.tools.list_ports
 import sys
 import time
 
-# Serial loop for reading serial port data
-def serial_loop():
-    print("Entering serial loop...")
-    ser.open()
-    while True:
-        # Serial port reading
-        try:
-            #TODO implement actual data handling
-            data = json.dumps(ser.readline())
-            print(data)
-        except serial.SerialTimeoutException:
-            print("Data could not be read (serial timeout)")
+ser = serial.Serial()
 
 def run_serial():
+    global ser
+
+    port = ""
     # Look for the arduino port
     for p in serial.tools.list_ports.comports():
         # Print ports for debugging
         print(f"{p}. ")
+        desired_port = 'COM3'
         if "COM3" in p.description:
             print(f"Arduino Port -> {p}")
-            port = p.name
+            port = desired_port
+            #port_num = 9600
 
-        plugged_in = False
-        port_num = 9600
+    # Check if Arduino is plugged in
+    while True:
+        try:
+            ser.port = 'COM3'
+            ser.baudrate = 9600
+            ser.timeout = 0
+            print(port)
+            break
+        except Exception as e:
+            print(e)
+            print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
+            #TODO add wait for keypress prompt instead
+            time.sleep(1000)
+    serial_loop()
 
-        # Check if Arduino is plugged in
-        while not plugged_in:
-            try:
-                #ser = serial.Serial(p, 9600, timeout = 0)
-                global ser
-                ser = serial.Serial(port, port_num, timeout = 0)
-                plugged_in = True
-            except Exception as e:
-                print(e)
-                print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
-                #TODO add wait for keypress prompt instead
-                time.sleep(1000)
-        serial_loop()
-
+# Serial loop for reading serial port data
+def serial_loop():
+    global ser
+    print(f"Entering serial loop...")
+    ser.open()
+    ser.flush()
+    while True:
+        # Serial port reading
+        try:
+            #TODO implement actual data handling
+            data = ser.readline()
+            data = data.decode("utf-8")
+            print(data)
+            time.sleep(1)
+        except serial.SerialTimeoutException:
+            print("Data could not be read (serial timeout)")
+    ser.close()
 def gen_400_err():
     return "Bad request made", 400
 
