@@ -85,16 +85,19 @@ def run_server():
             return gen_400_err()
 
     # adds each relevant client, the frontend and the
-    # arduino part of the backend to their appropriate rooms
+    # arduino part of the backend, to their appropriate rooms
     @ws_server.on("message")
     def add_to_room(room_name):
         # valid room names are "frontend" and "arduino"
+        # not checked here, but necessary for replies/broadcasts
         flask_sio.join(room_name)
 
     def frontend_ws_handler(payload):
         json_data = json.loads(payload)
 
         id = json_data["id"]
+        if id not in data.keys():
+            return {"error": "Id is not valid"}
         event = json_data["event"]
 
         if event == "UPDATE_LEDS":
@@ -117,7 +120,7 @@ def run_server():
     def arduino_ws_handler(payload):
         pass
 
-    #TODO timer functions need more specification. what triggers a timer??
+    #TODO timer functions need more specification. what triggers a timer start/end/update??
     def on_timer_start():
         pass
 
