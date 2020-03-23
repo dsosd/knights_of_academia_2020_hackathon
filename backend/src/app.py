@@ -1,3 +1,4 @@
+import copy
 import flask
 from flask import Flask, request, jsonify
 import json
@@ -44,21 +45,41 @@ def run_serial():
                 print(e)
                 print("!!! NO PLUGGED-IN ARDUINO DETECTED !!!")
                 #TODO add wait for keypress prompt instead
-                time.sleep(1)
+                time.sleep(1000)
         serial_loop()
 
+def gen_400_err():
+    return "Bad request made", 400
+
 def run_server():
-    # Create server
     server = Flask(__name__)
 
-    # For hosting data
-    @server.route("/api/<endpoint>", methods = ["GET", "POST"])
-    def req_handler(endpoint):
-        if endpoint not in ["ports", "config", "leds"]:
-            raise Exception()
+    port_to_id = {}
+    data = {}
 
-        #TODO implement actual data handling
-        return "{} request received!".format(flask.request.method)
+    # HTTP part
+    @server.route("/api/ports", methods = ["GET"])
+    def ports_handler():
+        return json.dumps(list(port_to_id.keys()))
+
+    @server.route("/api/connect", methods = ["GET"])
+    def connect_handler():
+        try:
+            return json.dumps(str(port_to_id[
+                flask.request.args.get("port")
+            ]))
+        except KeyError:
+            return gen_400_err()
+
+    @server.route("/api/board/<int:id>", methods = ["GET"])
+    def board_handler(id):
+        try:
+            ret = copy.deepcopy(data[id])
+            ret.update({"id": id})
+
+            return json.dumps(ret)
+        except KeyError:
+            return gen_400_err()
 
     server.run(debug = True, use_reloader = False)
 
