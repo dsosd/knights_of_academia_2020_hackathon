@@ -134,7 +134,7 @@ def run_server():
         room = flask.session.get("room")
 
         def reply(data, room = room):
-            emit("json", data, room = room, include_self = false)
+            flask_sio.emit("json", data, room = room, include_self = false)
 
         if room == "frontend":
             ret = frontend_ws_handler(payload)
