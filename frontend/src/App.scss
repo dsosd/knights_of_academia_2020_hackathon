@@ -1,0 +1,85 @@
+div#app {
+  display: flex;
+  flex-direction: row;
+
+  height: 100vh;
+  overflow: hidden;
+
+  .card {
+    background: rgba(10, 15, 10, 1);
+    height: 70vh;
+    width: 60vw;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+
+    padding: 50px;
+  }
+
+  .smallCard {
+    background: rgba(10, 15, 10, 1);
+    display: flex;
+    flex-direction: column;
+
+    padding: 50px;
+  }
+
+  main {
+    flex-grow: 100;
+    background: url('https://i.picsum.photos/id/83/1440/1080.jpg');
+    background-size: cover;
+    background-position: bottom;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    section {
+      min-height: 100vh;
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    section#notconnected {
+      div {
+        align-items: center;
+
+        color: white;
+        font-size: 18px;
+        font-family: 'Inter', 'Seoge UI Emoji';
+
+        span {
+          display: block;
+          font-size: 36px;
+          margin: 20px 0;
+        }
+      }
+    }
+
+    section#configure, section#timer {
+      div {
+        h1 {
+          margin: 0px;
+          text-transform: uppercase;
+          font-family: 'Work Sans', sans-serif;
+          color: white;
+        }
+      }
+    }
+
+    section#timer div.card {
+      background: linear-gradient(
+        rgb(250, 160, 100),
+        rgb(250, 160, 100) 50%,
+        rgba(10, 15, 10, 1) 50%,
+        rgba(10, 15, 10, 1)
+      );
+    }
+  }
+}

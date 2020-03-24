@@ -1,0 +1,30 @@
+#timer {
+  cursor: default;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  div {
+    position: relative;
+    color: rgb(250, 160, 100);
+    font-family: 'Baloo 2', cursive;
+    font-size: 25vh;
+
+    span {
+      height: 50%;
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      color: white;
+      overflow: hidden;
+    }
+  }
+
+  span.tip {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+  }
+}
