@@ -1,20 +1,42 @@
 <script>
-  import Navbar from "./Navbar.svelte";
-  import Main from "./Main.svelte";
-  import Footer from "./Footer.svelte";
+  import Sidebar from './components/sidebar/Sidebar.svelte';
+  import Keyboard from './components/keyboard/Keyboard.svelte';
+  import Timer from './components/timer/Timer.svelte'
+
+  let connected = false;
+  const selectedPortFn = () => connected = true
 </script>
 
-<style>
-  div#MainWrapper {
-    height: 100vh;
-    width: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
-  }
-</style>
+<style src="./App.scss"></style>
 
-<div id="MainWrapper">
-  <Navbar />
-  <Main />
-  <Footer />
+<div id="app">
+  <Sidebar on:selectedPort={selectedPortFn} />
+
+  <main id="main">
+    {#if connected}
+    <section id="configure" class="animated fadeInRight">
+      <div class="card">
+        <h1>Configure</h1>
+        <Keyboard></Keyboard>
+      </div>
+    </section>
+
+    <section id="timer" class="animated fadeInRight">
+      <div class="card">
+        <h1>Timer</h1>
+        <Timer></Timer>
+      </div>
+    </section>
+    {/if}
+
+
+    {#if !connected}
+    <section id="notconnected">
+      <div class="smallCard">
+        Select connected port to access the Dashboard
+        <span>😢 😤 🙏</span>
+      </div>
+    </section>
+    {/if}
+  </main>
 </div>
