@@ -33,6 +33,7 @@ Data from the LED's should be formatted like this:
 - Look for your port:
   - eg. "Arduino", "COM1", "/dev/tts"
 - Edit the below code as commented:
+> Run the program, check output:
 ![EditAnnotataion](EditAnnotation.png)
 > How to find the ports:
 >
