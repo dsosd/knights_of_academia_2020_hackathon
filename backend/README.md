@@ -22,13 +22,7 @@ python -m flask
 
 ## JSON Data format:
 Data from the LED's should be formatted like this:
-```py
-example_json = [
-    "leds": {
-        # LED's should be numbered 1..end
-        0: [r, g, b]
-        }
-]
+![JsonAnnotation](JsonAnnotation.png)
 ```
 > Note: Subject to change
 
