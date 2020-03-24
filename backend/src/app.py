@@ -21,7 +21,7 @@ def run_serial():
         # Print ports for debugging
         print(f"{p}. ")
         desired_port = 'COM3'
-        if "COM3" in p.description:
+        if desired_port in p.description:
             print(f"Arduino Port -> {p}")
             port = desired_port
             #port_num = 9600
@@ -29,7 +29,7 @@ def run_serial():
     # Check if Arduino is plugged in
     while True:
         try:
-            ser.port = 'COM3'
+            ser.port = port
             ser.baudrate = 9600
             ser.timeout = 0
             break
@@ -56,6 +56,7 @@ def serial_loop():
                 data = ser.readline()
                 data = json.loads(json.dumps(data.decode("utf-8")))
                 first_time = False
+                print(data)
             time.sleep(1)
         except serial.SerialTimeoutException:
             print("Data could not be read (serial timeout)")
