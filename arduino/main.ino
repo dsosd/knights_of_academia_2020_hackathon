@@ -38,9 +38,6 @@ void setup() {
 		pinMode(columns[i], INPUT_PULLUP);
 	}
   
-  	pinMode(10, OUTPUT);
-  	digitalWrite(10, HIGH);
-  	
 }
  
 void readKeys() {
