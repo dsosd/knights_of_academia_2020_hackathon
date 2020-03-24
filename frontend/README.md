@@ -1,4 +1,4 @@
-# Frontend
+# Frontend Dashboard
 
 An impressively fast dashboard powered by Svelte and Material Icons
 
