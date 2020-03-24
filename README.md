@@ -35,9 +35,9 @@
 
 The whole product is divided into 3 Main Parts
 
-1. Arduino
-2. Backend
-3. Frontend
+1. [Arduino](https://github.com/SagnikPradhan/the-knights/tree/master/arduino)
+2. [Backend](https://github.com/SagnikPradhan/the-knights/tree/master/backend)
+3. [Frontend](https://github.com/SagnikPradhan/the-knights/tree/master/frontend)
 
 The Arduino compatible board here acts as a keyboard. Sending keypresses and knob values to the Serial Port.
 
