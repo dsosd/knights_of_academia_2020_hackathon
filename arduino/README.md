@@ -37,6 +37,16 @@ At first we're gonna have to clear out the EEPROM of your Arduino.
 
 On the [official Arduino Website](https://www.arduino.cc/en/Tutorial/EEPROMClear) is a Tutorial for this.
 
+After that's done we need to install the "Adafruit NeoPixel by Adafruit" library.
+
+To do that, Go From the Sketch menu, > Include Library > Manage Libraries...
+
+In the text input box type in "NeoPixel". 
+
+Look for "Adafruit NeoPixel by Adafruit" and select the latest version by clicking on the popup menu next to the Install button. 
+
+Then click on the Install button. After it's installed, you can click the "close" button.
+
 After you've done that you have to edit the sketch if you added/reduced the amount of LEDs / Keys
 
 If you added more LED's, change 
@@ -65,6 +75,8 @@ to your needs.
 (2, 3 and 4 being the pins for the rows.)
 
 After you've done these changes, upload the sketch and you should be ready to go!
+
+(On linux you could install arduino-cli and use the compile.sh and upload.sh scripts too!)
 
 ## Interaction
 
