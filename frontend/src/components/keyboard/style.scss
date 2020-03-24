@@ -1,0 +1,123 @@
+div#keyboardWrapper {
+  display: grid;
+  grid-template-areas:
+    "_4 _3 _2 _1" 
+    "_8 _7 _6 _5" 
+    "_12 _11 _10 _9" 
+    "_16 _15 _14 _13" 
+    "_20 _19 _18 _17"
+    "A A A S";
+
+
+  button {
+    grid-area: S;
+  }
+
+  div#key {
+    padding: 15px;
+    margin: 15px;
+    background: rgba(20, 25, 20, 1);
+
+    display: grid;
+    grid-template-areas:
+      "W X Y";
+
+    input[type=color] {
+      grid-area: W;
+      border: 0px;
+      background: none;
+      width: 50px;
+      height: 30px;
+    }
+
+    .select {
+      font-family: 'Inter', sans-serif;
+      grid-area: X;
+      padding: 5px;
+      border: 0px;
+      color: white;
+      background: rgba(30, 35, 30, 1);
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+
+      option {
+        color: white;
+        background: rgba(30, 35, 30, 1);
+        font-size: 16px;
+      }
+    }
+
+    input[type=text] {
+      font-family: 'Inter', sans-serif;
+      margin-left: 10px;
+      width: 50px;
+      grid-area: Y;
+      background: rgba(30, 35, 30, 1);
+      padding: 5px;
+      border: 0px;
+      color: white;
+    }
+  }
+
+  span.index {
+    grid-area: A;
+    display: flex;
+    align-items: center;
+    margin: 15px;
+    padding: 15px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+
+    span {
+      display: flex;
+      margin-right: 20px;
+    }
+  }
+
+  button#save {
+    padding: 15px;
+    margin: 15px;
+    border: 0px;
+    background: rgba(20, 25, 20, 1);
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Work Sans', sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    &:hover {
+      background: rgba(30, 35, 30, 1);
+      box-shadow: 0 0 10px black;
+    }
+
+    span.material-icons {
+      font-size: 24px;
+      color: green;
+    }
+  }
+
+  div#key._1 { grid-area: _1 }
+  div#key._2 { grid-area: _2 }
+  div#key._3 { grid-area: _3 }
+  div#key._4 { grid-area: _4 }
+  div#key._5 { grid-area: _5 }
+  div#key._6 { grid-area: _6 }
+  div#key._7 { grid-area: _7 }
+  div#key._8 { grid-area: _8 }
+  div#key._9 { grid-area: _9 }
+  div#key._10 { grid-area: _10 }
+  div#key._11 { grid-area: _11 }
+  div#key._12 { grid-area: _12 }
+  div#key._13 { grid-area: _13 }
+  div#key._14 { grid-area: _14 }
+  div#key._15 { grid-area: _15 }
+  div#key._16 { grid-area: _16 }
+  div#key._17 { grid-area: _17 }
+  div#key._18 { grid-area: _18 }
+  div#key._19 { grid-area: _19 }
+  div#key._20 { grid-area: _20 }
+}
