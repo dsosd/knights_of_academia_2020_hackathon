@@ -39,16 +39,7 @@ example_json = [
 - Look for your port:
   - eg. "Arduino", "COM1", "/dev/tts"
 - Edit the below code as commented:
-``` py
-# Change "Arduino", to the 
-# Look for the arduino port
-for p in ports:
-    # Print ports for debugging
-    print(f"{p}. ")
-    if "Arduino" in p.description:
-        print(f"Arduino Port -> {p}")
-        port = p
-```
+![EditAnnotataion](EditAnnotation.png)
 > How to find the ports:
 >
 >![PortAnnotation](PortAnnotation.png)
