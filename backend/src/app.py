@@ -1,5 +1,6 @@
 import copy
 import flask
+from flask import jsonify
 import flask_socketio as flask_sio
 import json
 import multiprocessing as mproc
@@ -9,6 +10,7 @@ import sys
 import time
 
 ser = serial.Serial()
+data = {}
 
 def run_serial():
     global ser
@@ -30,7 +32,6 @@ def run_serial():
             ser.port = 'COM3'
             ser.baudrate = 9600
             ser.timeout = 0
-            print(port)
             break
         except Exception as e:
             print(e)
@@ -42,20 +43,24 @@ def run_serial():
 # Serial loop for reading serial port data
 def serial_loop():
     global ser
+    global data
     print(f"Entering serial loop...")
     ser.open()
     ser.flush()
+    first_time = True
     while True:
         # Serial port reading
         try:
             #TODO implement actual data handling
-            data = ser.readline()
-            data = data.decode("utf-8")
-            print(data)
+            if data != {} or first_time == True:
+                data = ser.readline()
+                data = json.loads(json.dumps(data.decode("utf-8")))
+                first_time = False
             time.sleep(1)
         except serial.SerialTimeoutException:
             print("Data could not be read (serial timeout)")
     ser.close()
+
 def gen_400_err():
     return "Bad request made", 400
 
