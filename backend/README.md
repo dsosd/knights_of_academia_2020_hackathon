@@ -39,7 +39,7 @@ python -m flask
 >
 >![PortAnnotation](PortAnnotation.png)
 
-> Note: This step is not **required**
+> Note: This step is **required**
 
 ## Deployment:
 There are many different options to deploy a Flask app, some of the various options can be found [here](https://flask.palletsprojects.com/en/1.1.x/deploying/), since that website covers the many different deployment options quite nicely, there is no need to cover them here.
