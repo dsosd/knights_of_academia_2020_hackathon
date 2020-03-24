@@ -66,30 +66,30 @@ void sendKeys() {
   	bool first = true;
   	int keysarr[] = {keys[4][0], keys[3][0], keys[2][0], 
               		 keys[1][0], keys[0][0], keys[4][1], 
-                     keys[3][1], keys[2][1], keys[1][1], 
-                     keys[0][1], keys[4][2], keys[3][2],
-                     keys[2][2], keys[1][2], keys[0][2]};
+                     	 keys[3][1], keys[2][1], keys[1][1], 
+                     	 keys[0][1], keys[4][2], keys[3][2],
+                     	 keys[2][2], keys[1][2], keys[0][2]};
   	Serial.print("{\"event\": \"KEY_STATUS\",\"data\": {\"active\": [");
-  	for (int i=0; i < 15; i++) {
-      	if (keysarr[i] == 0) {
-          	if (first) {
-            	Serial.print(i + 1);
-              	first = false;
-            } else {
-            	Serial.print(", ");
-              	Serial.print(i + 1);
-            }
-        }
+ 	for (int i=0; i < 15; i++) {
+		if (keysarr[i] == 0) {
+		  	if (first) {
+				Serial.print(i + 1);
+				first = false;
+		   	} else {
+				Serial.print(", ");
+				Serial.print(i + 1);
+		   	}
+		}
   	}
 	// On 5V analogRead() is 1023 max. Here it gets "mapped" to 0 to 100.
   	int knobval = analogRead(A0);
   	if (knobval < 10.23) {
-      	mappedknobval = 0;
-    }else {
-    	mappedknobval = knobval / 10.23;
-    }
+      		mappedknobval = 0;
+    	}else {
+    		mappedknobval = knobval / 10.23;
+    	}
   	Serial.print("], \"knob\": ");
-    Serial.print(mappedknobval);
+    	Serial.print(mappedknobval);
   	Serial.println("}}");
 }
 
@@ -102,25 +102,25 @@ void setRgb(String rgbdata) {
   	char* token;
   	char* rest = buf;
   	int i = 1;
-    while ((token = strtok_r(rest, "[", &rest))) {
-      	char* token2;
-      	char* resttoken = token;
-      	while ((token2 = strtok_r(resttoken, "]", &resttoken))) {
-        	char* token3;
-            char* resttoken2 = token2;
-          	if (i%2== 0) {
-              	int j = 0;
-              	int rgb[3];
-                while ((token3 = strtok_r(resttoken2, ",", &resttoken2))) {
-                    rgb[j] = atoi(token3);
-                    j++;
-                }
-              	pixels.setPixelColor((i/2)-1, pixels.Color(rgb[0], rgb[1], rgb[2]));
-            }
-            i++;
-        }
-    }
-  	pixels.show();
+    	while ((token = strtok_r(rest, "[", &rest))) {
+		char* token2;
+		char* resttoken = token;
+		while ((token2 = strtok_r(resttoken, "]", &resttoken))) {
+			char* token3;
+		    	char* resttoken2 = token2;
+			if (i%2== 0) {
+				int j = 0;
+				int rgb[3];
+				while ((token3 = strtok_r(resttoken2, ",", &resttoken2))) {
+				    rgb[j] = atoi(token3);
+				    j++;
+				}
+				pixels.setPixelColor((i/2)-1, pixels.Color(rgb[0], rgb[1], rgb[2]));
+			}
+		i++;
+		}
+    	}
+    	pixels.show();
 }
 
 String readEEPROMID() {
