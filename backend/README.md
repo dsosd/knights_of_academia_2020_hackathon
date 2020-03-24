@@ -33,13 +33,13 @@ python -m flask
 - Look for your port:
   - eg. "Arduino", "COM1", "/dev/tts"
 - Edit the below code as commented:
-> Run the program, check output:
+> Run the program, check output, manually specify which ports to use:
 ![EditAnnotataion](EditAnnotation.png)
 > How to find the ports:
 >
 >![PortAnnotation](PortAnnotation.png)
 
-> Note: This step is not required as it is configured to automatically find ports, only use if port can not be found
+> Note: This step is not **required**
 
 ## Deployment:
 There are many different options to deploy a Flask app, some of the various options can be found [here](https://flask.palletsprojects.com/en/1.1.x/deploying/), since that website covers the many different deployment options quite nicely, there is no need to cover them here.
