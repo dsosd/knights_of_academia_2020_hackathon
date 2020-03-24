@@ -19,7 +19,7 @@ After you've got all of this you wire it up like this:
 
 (Breadboard optional).
 
-The LED's pins have this layout:
+The pins of the LED have this layout:
 
 ![](https://cdn-shop.adafruit.com/1200x900/1938-05.jpg)
 
