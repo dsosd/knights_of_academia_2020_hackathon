@@ -21,9 +21,9 @@ python -m flask
 > Note: If running for production do not use the default Flask servers, go to the Deployment section for extra help with that
 
 ## JSON Data format:
-Data from the LED's should be formatted like this:
+> Data from the LED's should be formatted like this:
 ![JsonAnnotation](JsonAnnotation.png)
-```
+
 > Note: Subject to change
 
 ## Manually finding ports:
