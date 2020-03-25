@@ -1,6 +1,4 @@
 # Frontend Dashboard
-<<<<<<< HEAD
-=======
 
 An impressively fast dashboard powered by Svelte and Material Icons
 
@@ -21,4 +19,4 @@ You can also configure one of your keys to start a timer and also use the onboar
 - [ ] Make it Responsive
 - [ ] Intergrate it with Backend
 - [ ] Get an Icon
->>>>>>> e317872f72d046a19d6fdac6e314ba82b2723d2c
+
